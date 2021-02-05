@@ -31,6 +31,7 @@ module EngineTemplate
 
 
     def engine_template_customization
+      invoke :add_main_gems
       build :set_empty_generators
       build :add_gemfile_dependencies
       build :add_dependencies_to_gemspec
@@ -44,6 +45,11 @@ module EngineTemplate
       # rake "db:migrate"
 
       # rails_command "db:migrate"
+    end
+
+    def add_main_gems
+      gem 'puma'
+      gem 'webpacker'
     end
 
     def engine_class_path

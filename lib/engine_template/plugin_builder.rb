@@ -33,9 +33,6 @@ module EngineTemplate
     #
     def add_gemfile_dependencies
 
-      gem 'puma'
-      gem 'webpacker'
-
       gem_group :test do
         gem 'rspec_junit_formatter', require: false
         gem 'simplecov-lcov', require: false
@@ -123,6 +120,9 @@ module EngineTemplate
       template 'config/webpacker', 'config/webpacker.yml'
       directory 'config/webpack'
       template 'package.json'
+      template 'babel.config.js'
+      template 'postcss.config.js'
+
       inject_into_module("lib/#{namespaced_name}.rb", camelized_modules) do
         <<-RUBY
   ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
@@ -179,9 +179,31 @@ module EngineTemplate
       end
       template 'app/helpers/%namespaced_name%/application_helper.rb.erb', 'app/helpers/%namespaced_name%/application_helper.rb', force: true
       template 'lib/tasks/webpacker_tasks.rake'
+      template 'bin/webpack'
+      template 'bin/webpack-dev-server'
+      chmod "bin", 0755 & ~File.umask, verbose: false
 
-      #prepend_in_file("app/helpers/#{namespaced_name}/application_helper.rb", 'require "webpacker/helper"')
-      #inject_into_file('require "webpacker/helper"', config, after: 'config.generators do |g|')
+      template 'app/javascript/packs/application.js'
+      template 'app/javascript/packs/application.css'
+
+      path_gitignore = "#{destination_root}/.gitignore"
+      if File.exists?(path_gitignore)
+        append_to_file path_gitignore do
+            "\n"                   +
+            "/public/packs\n"      +
+            "/public/packs-test\n" +
+            "/node_modules\n"      +
+            "/yarn-error.log\n"    +
+            "yarn-debug.log*\n"    +
+            ".yarn-integrity\n"
+        end
+      end
+
+      inside dummy_path do
+        run 'rails webpacker:install'
+      end
+
+      say("Webpacker successfully installed in #{camelized_modules} Engine 🎉 🍰")
     end
 
     # def readme
