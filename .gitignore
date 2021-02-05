@@ -3,3 +3,6 @@
 Gemfile.lock
 /.bundle
 /tmp
+/.idea
+.idea/*
+.idea/workspace.xml
