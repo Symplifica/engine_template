@@ -35,6 +35,7 @@ module EngineTemplate
       build :set_empty_generators
       build :add_gemfile_dependencies
       build :add_dependencies_to_gemspec
+      build :config_dummy_database
       run 'bundle install'
       build :load_dependencies
       build :config_rspec

@@ -52,6 +52,16 @@ module EngineTemplate
 
     end
 
+    def config_dummy_database
+      dummy_datbase_config_path = 'config/database.yml'
+      inside dummy_path do
+        gsub_file dummy_datbase_config_path, /dummy_development/, "#{namespaced_name}_dummy_development"
+        gsub_file dummy_datbase_config_path, /dummy_test/, "#{namespaced_name}_dummy_test"
+        gsub_file dummy_datbase_config_path, /dummy_production/, "#{namespaced_name}_dummy_production"
+        gsub_file dummy_datbase_config_path, /DUMMY_DATABASE_PASSWORD/, "#{namespaced_name.upcase}_DUMMY_DATABASE_PASSWORD"
+      end
+    end
+
     def config_rspec
       template 'spec/rails_helper.rb'
       template 'spec/spec_helper.rb'
