@@ -36,21 +36,23 @@ module EngineTemplate
       build :add_gemfile_dependencies
       build :add_dependencies_to_gemspec
       run 'bundle install'
+      build :load_dependencies
       build :config_rspec
       build :config_factory_bot
       build :config_annotate
-      build :config_webpacker if mountable?
-      build :load_dependencies
-      run 'yarn install'
-      # rake "db:create"
-      # rake "db:migrate"
-
+      build :config_i18n
+      if mountable?
+        build :config_webpacker
+        run 'yarn install' if mountable?
+      end
+      rake 'db:create'
+      rake 'db:migrate'
       # rails_command "db:migrate"
     end
 
     def add_main_gems
       gem 'puma'
-      gem 'webpacker'
+      gem 'webpacker' if mountable?
     end
 
     def engine_class_path
