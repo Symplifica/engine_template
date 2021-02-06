@@ -34,8 +34,8 @@ module EngineTemplate
       path_gemspec = "#{name}.gemspec"
 
       gsub_file path_gemspec, /spec.homepage    = "TODO"/, 'spec.homepage    = "https://symplifica.com"'
-      gsub_file path_gemspec, /TODO: Summary of Testapp./, 'Symplifica Rails engine'
-      gsub_file path_gemspec, /TODO: Description of Testapp./, 'Symplifica Rails engine'
+      gsub_file path_gemspec, /TODO: Summary of #{camelized_modules}./, 'Symplifica Rails engine'
+      gsub_file path_gemspec, /TODO: Description of #{camelized_modules}./, 'Symplifica Rails engine'
       gsub_file path_gemspec, /TODO: Set to /, ''
       gsub_file path_gemspec, /TODO: Put your gem's public repo URL here./, 'https://symplifica.com'
       gsub_file path_gemspec, /TODO: Put your gem's CHANGELOG.md URL here./, 'https://symplifica.com'
