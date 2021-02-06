@@ -38,6 +38,7 @@ module EngineTemplate
       run 'bundle install'
       build :config_rspec
       build :config_factory_bot
+      build :config_annotate
       build :config_webpacker if mountable?
       build :load_dependencies
       run 'yarn install'

@@ -206,6 +206,10 @@ module EngineTemplate
       say("Webpacker successfully installed in #{camelized_modules} Engine 🎉 🍰")
     end
 
+    def config_annotate
+      rails_command 'generate annotate:install'
+    end
+
     # def readme
     #   template "README.md.erb", "README.md"
     # end
